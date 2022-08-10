@@ -1,9 +1,9 @@
 import React from "react";
 import axios from "axios";
 import logger from "use-reducer-logger";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
+import { Col, Row } from "react-bootstrap";
 import Product from "../Components/Product";
+import { Helmet } from "react-helmet-async";
 // import data from "../data";
 
 const reducer = (state, action) => {
@@ -46,6 +46,10 @@ function HomeScreen() {
 
   return (
     <div>
+      <Helmet>
+        <title>Amazon</title>
+      </Helmet>
+
       <h1>List Product</h1>
       <div className="products">
         {loading ? (
@@ -54,13 +58,11 @@ function HomeScreen() {
           <div>{error}</div>
         ) : (
           <Row>
-            {products.map((product) => {
-              return (
-                <Col sm={6} md={4} lg={3} className="mb-3">
-                  <Product product={product} />
-                </Col>
-              );
-            })}
+            {products.map((product) => (
+              <Col sm={6} md={4} lg={3} className="mb-3">
+                <Product product={product} />
+              </Col>
+            ))}
           </Row>
         )}
       </div>
