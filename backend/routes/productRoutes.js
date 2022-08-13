@@ -5,7 +5,7 @@ const productRouter = express.Router();
 
 productRouter.get("/", async (req, res) => {
   const products = await Product.find();
-  res.send(products);
+  res.status(200).send(products);
 });
 
 productRouter.get("/slug/:slug", async (req, res) => {
