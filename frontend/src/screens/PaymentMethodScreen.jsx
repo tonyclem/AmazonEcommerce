@@ -14,7 +14,7 @@ export default function PaymentMethodScreen() {
   } = state;
 
   const [paymentMethodName, setPaymentMethod] = React.useState(
-    paymentMethod || "Paypal"
+    paymentMethod || "PayPal"
   );
 
   React.useEffect(() => {
@@ -43,7 +43,7 @@ export default function PaymentMethodScreen() {
               type="radio"
               id="PayPal"
               label="PayPal"
-              value="Paypal"
+              value="PayPal"
               checked={paymentMethodName === "PayPal"}
               onChange={(e) => setPaymentMethod(e.target.value)}
             />
