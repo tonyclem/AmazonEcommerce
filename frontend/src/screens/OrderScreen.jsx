@@ -103,7 +103,7 @@ export default function OrderScreen() {
     };
 
     if (!userInfo) {
-      return navigator("/login");
+      return navigator("/signin");
     }
     if (!order._id || successPay || (order._id && order._id !== orderId)) {
       fetchOrder();
@@ -180,14 +180,14 @@ export default function OrderScreen() {
             <Card.Body>
               <Card.Title>Items</Card.Title>
               <ListGroup variant="flush">
-                {order.orderItems.map((item) => (
+                {order.orderItems?.map((item) => (
                   <ListGroup.Item key={item._id}>
                     <Row className="align-items-center">
                       <Col md={6}>
                         <img
+                          src={item.image}
+                          alt={item.name}
                           className="img-fluid rounded img-thumbnail"
-                          src={item?.image}
-                          alt={item?.name}
                         />
                         <Link to={`/product/${item.slug}`}>{item.name}</Link>
                       </Col>

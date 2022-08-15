@@ -28,6 +28,15 @@ orderRouter.post(
 );
 
 orderRouter.get(
+  "/mine",
+  isAuth,
+  expressAsyncHandler(async (req, res) => {
+    const orders = await Order.find({ user: req.user._id });
+    res.status(200).send(orders);
+  })
+);
+
+orderRouter.get(
   "/:id",
   isAuth,
   expressAsyncHandler(async (req, res) => {
@@ -56,7 +65,7 @@ orderRouter.put(
       };
 
       const updatedOrder = await order.save();
-      res.status(200).send({ message: "Order Paid", updatedOrder });
+      res.status(200).send({ message: "Order Paid", order: updatedOrder });
     } else {
       res.status(404).send({ message: "Order not found" });
     }
