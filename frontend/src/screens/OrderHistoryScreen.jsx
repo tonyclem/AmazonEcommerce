@@ -13,17 +13,9 @@ const reducer = (state, action) => {
     case "FETCH_REQUEST":
       return { ...state, loading: true, error: "" };
     case "FETCH_SUCCESS":
-      return { ...state, loading: false, order: action.payload, error: "" };
+      return { ...state, loading: false, orders: action.payload, error: "" };
     case "FETCH_FAIL":
       return { ...state, loading: false, error: action.payload };
-    case "PAY_REQUEST":
-      return { ...state, loadingPay: true };
-    case "PAY_SUCCESS":
-      return { ...state, loadingPay: false, successPay: true };
-    case "PAY_FAIL":
-      return { ...state, loadingPay: false, errorPay: action.payload };
-    case "PAY_RESET":
-      return { ...state, loadingPay: false, successPay: false };
 
     default:
       return state;
@@ -42,11 +34,12 @@ export default function OrderHistoryScreen() {
 
   React.useEffect(() => {
     const fetchData = async () => {
+      dispatch({ type: "FETCH_REQUEST" });
       try {
         const { data } = await Axios.get(
           `/api/orders/mine`,
 
-          { headers: { Authorization: `Bearer ${userInfo.token}` } }
+          { headers: { authorization: `Bearer ${userInfo.token}` } }
         );
         dispatch({ type: "FETCH_SUCCESS", payload: data });
       } catch (error) {
@@ -92,13 +85,15 @@ export default function OrderHistoryScreen() {
                     ? order.deliveredAt.substring(0, 10)
                     : "No"}
                 </td>
-                <Button
-                  type="button"
-                  variant="light"
-                  onClick={() => navigate(`/order/${order._id}`)}
-                >
-                  Details
-                </Button>
+                <td>
+                  <Button
+                    type="button"
+                    variant="light"
+                    onClick={() => navigate(`/order/${order._id}`)}
+                  >
+                    Details
+                  </Button>
+                </td>
               </tr>
             ))}
           </tbody>
