@@ -27,6 +27,9 @@ import { ProfileScreen } from "./screens/ProfileScreen";
 import getError from "./utils";
 import { SearchBox } from "./Components/SearchBox";
 import SearchScreen from "./screens/SearchScreen";
+import ProtectedRoute from "./Components/ProtectedRoute";
+import AdminRoute from "./Components/AdminRoute";
+import DashboardScreen from "./screens/DashboardScreen";
 
 function App() {
   const { state, dispatch: ctxDispatch } = React.useContext(Store);
@@ -115,6 +118,22 @@ function App() {
                         Sign In
                       </Link>
                     )}
+                    {userInfo && userInfo.isAdmin && (
+                      <NavDropdown title="Admin" id="admin-nav-dropdown">
+                        <LinkContainer to="/admin/dashboard">
+                          <NavDropdown.Item>Dashboard</NavDropdown.Item>
+                        </LinkContainer>
+                        <LinkContainer to="/admin/productlist">
+                          <NavDropdown.Item>Products</NavDropdown.Item>
+                        </LinkContainer>
+                        <LinkContainer to="/admin/orderlist">
+                          <NavDropdown.Item>Order</NavDropdown.Item>
+                        </LinkContainer>
+                        <LinkContainer to="/admin/userlist">
+                          <NavDropdown.Item>User</NavDropdown.Item>
+                        </LinkContainer>
+                      </NavDropdown>
+                    )}
                   </Nav>
                 </Navbar.Collapse>
               </Container>
@@ -156,7 +175,22 @@ function App() {
                 <Route path="/orderhistory" element={<OrderHistoryScreen />} />
                 <Route path="/shipping" element={<ShippingAddressScreen />} />
                 <Route path="/payment" element={<PaymentMethodScreen />} />
-                <Route path="/profile" element={<ProfileScreen />} />
+                <Route
+                  path="/admin/dashboard"
+                  element={
+                    <AdminRoute>
+                      <DashboardScreen />
+                    </AdminRoute>
+                  }
+                />
+                <Route
+                  path="/profile"
+                  element={
+                    <ProtectedRoute>
+                      <ProfileScreen />
+                    </ProtectedRoute>
+                  }
+                />
                 <Route path="/" element={<HomeScreen />} />
               </Routes>
             </Container>
